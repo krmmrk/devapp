@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- ビューポートの設定：モバイルデバイスでの表示を最適化 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>シンプルTODO</title>
+    <title>食事記録</title>
     <style>
         /* フォームの上下に余白を追加 */
         .todo-form {
@@ -18,12 +18,26 @@
     </style>
 </head>
 <body>
-    <h1>TODOリスト</h1>
+    <h1>食事記録サイト</h1>
     
     <!-- TODOを追加するためのフォーム -->
     <form id="todoForm" class="todo-form">
-        <input type="text" id="todoInput" placeholder="新しいTODOを入力..." required>
+        <p>
+        <input type="text" id="dateInput" placeholder="日付を入力" required>
+        </p><p>
+        <input type="text" id="foodInput" placeholder="時間帯を入力" required>
+        </p><p>
+        <input type="text" id="foodInput" placeholder="食べたものを入力" required>    
+        </p><p>
+        <input type="text" id="foodInput" placeholder="大まかなカロリーを入力" required>    
+        </p>
+        
+        
         <button type="submit">追加</button>
+        
+        
+
+        
     </form>
 
     <!-- TODOリストを表示する場所 -->
@@ -31,7 +45,7 @@
 
     <script>
         // APIのベースURL：実際のAPIサーバーのアドレス
-        const API_URL = 'http://localhost:8000/todos';
+        const API_URL = 'http://43.206.225.204:8000/todos';
         
         /**
          * APIとの通信を行う汎用関数
