@@ -2,57 +2,202 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <!-- ビューポートの設定：モバイルデバイスでの表示を最適化 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>食事記録</title>
     <style>
-        /* フォームの上下に余白を追加 */
-        .todo-form {
-            margin: 1rem 0;
+        /* 全体のスタイル */
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
         }
-        /* 完了したTODOのスタイル：取り消し線と薄い色 */
-        .completed {
-            text-decoration: line-through;
-            color: gray;
+
+        /* ヘッダーのスタイル */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 40px;
+            padding-left: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        /* フォームのスタイル */
+        .meal-form {
+            background-color: white;
+            margin: 2rem 0;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.3);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* ボタンのスタイル */
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button.delete {
+            background-color: #e74c3c;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        button.delete:hover {
+            background-color: #c0392b;
+        }
+
+        /* 食事記録一覧のスタイル */
+        .meal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .meal-item {
+            background-color: white;
+            border-radius: 10px;
+            margin: 15px 0;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .meal-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .meal-item h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .meal-item p {
+            margin: 8px 0;
+            color: #666;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .meal-form {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        /* アニメーション効果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .meal-item {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
     <h1>食事記録サイト</h1>
-    
-    <!-- TODOを追加するためのフォーム -->
-    <form id="todoForm" class="todo-form">
-        <p>
-        <input type="text" id="dateInput" placeholder="日付を入力" required>
-        </p><p>
-        <input type="text" id="foodInput" placeholder="時間帯を入力" required>
-        </p><p>
-        <input type="text" id="foodInput" placeholder="食べたものを入力" required>    
-        </p><p>
-        <input type="text" id="foodInput" placeholder="大まかなカロリーを入力" required>    
-        </p>
-        
-        
-        <button type="submit">追加</button>
-        
-        
 
-        
+    <form id="mealForm" class="meal-form">
+        <div class="form-group">
+            <label for="dateTimeInput">日時:</label>
+            <input type="datetime-local" id="dateTimeInput" required>
+        </div>
+        <div class="form-group">
+            <label for="mealTypeInput">時間帯:</label>
+            <select id="mealTypeInput" required>
+                <option value="">選択してください</option>
+                <option value="朝食">朝食</option>
+                <option value="昼食">昼食</option>
+                <option value="夕食">夕食</option>
+                <option value="間食">間食</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="foodNameInput">食事内容:</label>
+            <input type="text" id="foodNameInput" placeholder="例：ご飯、焼き魚、お味噌汁" required>
+        </div>
+        <div class="form-group">
+            <label for="caloriesInput">カロリー (kcal):</label>
+            <input type="number" id="caloriesInput" placeholder="例：500">
+        </div>
+        <div class="form-group">
+            <label for="notesInput">メモ:</label>
+            <textarea id="notesInput" placeholder="その他の情報を記入"></textarea>
+        </div>
+        <button type="submit">記録する</button>
     </form>
 
-    <!-- TODOリストを表示する場所 -->
-    <ul id="todoList"></ul>
+    <h2>食事記録一覧</h2>
+    <div id="mealList"></div>
 
     <script>
-        // APIのベースURL：実際のAPIサーバーのアドレス
-        const API_URL = 'http://43.206.225.204:8000/todos';
-        
-        /**
-         * APIとの通信を行う汎用関数
-         * @param {string} endpoint - APIのエンドポイント
-         * @param {Object} options - fetchのオプション（メソッド、ヘッダーなど）
-         * @returns {Promise} APIからのレスポンス
-         */
+        const API_URL = `${window.location.origin}/meals`;
+
         async function api(endpoint, options = {}) {
             try {
                 const response = await fetch(endpoint, options);
@@ -64,100 +209,64 @@
             }
         }
 
-        /**
-         * 1つのTODOアイテムのHTMLを生成
-         * @param {Object} todo - TODOオブジェクト（id, title, completedを含む）
-         * @returns {string} TODOアイテムのHTML文字列
-         */
-        function renderTodo(todo) {
+        function renderMeal(meal) {
             return `
-                <li>
-                    <input type="checkbox" 
-                           ${todo.completed ? 'checked' : ''} 
-                           onchange="toggleTodo(${todo.id}, this.checked)">
-                    <span class="${todo.completed ? 'completed' : ''}">${todo.title}</span>
-                    <button onclick="deleteTodo(${todo.id})">削除</button>
-                </li>
+                <div class="meal-item">
+                    <h3>${meal.meal_type} - ${meal.food_name}</h3>
+                    <p>日時: ${new Date(meal.date_time).toLocaleString()}</p>
+                    <p>カロリー: ${meal.calories || '未記入'} kcal</p>
+                    ${meal.notes ? `<p>メモ: ${meal.notes}</p>` : ''}
+                    <button onclick="deleteMeal(${meal.id})" class="delete">削除</button>
+                </div>
             `;
         }
 
-        /**
-         * すべてのTODOを読み込んでページに表示
-         */
-        async function loadTodos() {
-            // APIからTODOリストを取得
-            const todos = await api(API_URL);
-            if (todos) {
-                // 取得したTODOをHTMLに変換して表示
-                document.getElementById('todoList').innerHTML = 
-                    todos.map(renderTodo).join('');
+        async function loadMeals() {
+            const meals = await api(API_URL);
+            if (meals) {
+                document.getElementById('mealList').innerHTML = 
+                    meals.map(renderMeal).join('');
             }
         }
 
-        /**
-         * 新しいTODOを追加
-         * @param {string} title - 新しいTODOのタイトル
-         */
-        async function addTodo(title) {
-            // POSTリクエストでTODOを追加
-            await api(API_URL, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ title, completed: false })
-            });
-            // リストを再読み込みして表示を更新
-            loadTodos();
-        }
-
-        /**
-         * TODOの完了状態を切り替え
-         * @param {number} id - TODOのID
-         * @param {boolean} completed - 新しい完了状態
-         */
-        async function toggleTodo(id, completed) {
-            // 現在のTODO情報を取得
-            const todo = await api(`${API_URL}/${id}`);
-            if (todo) {
-                // PUTリクエストでTODOを更新
-                await api(`${API_URL}/${id}`, {
-                    method: 'PUT',
+        async function addMeal(mealData) {
+            try {
+                await api(API_URL, {
+                    method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ ...todo, completed })
+                    body: JSON.stringify(mealData)
                 });
-                // リストを再読み込みして表示を更新
-                loadTodos();
+                loadMeals();
+            } catch (error) {
+                console.error('Error adding meal:', error);
             }
         }
 
-        /**
-         * TODOを削除
-         * @param {number} id - 削除するTODOのID
-         */
-        async function deleteTodo(id) {
-            // DELETEリクエストでTODOを削除
-            await api(`${API_URL}/${id}`, { method: 'DELETE' });
-            // リストを再読み込みして表示を更新
-            loadTodos();
+        async function deleteMeal(id) {
+            if (confirm('この記録を削除しますか？')) {
+                try {
+                    await api(`${API_URL}/${id}`, { method: 'DELETE' });
+                    loadMeals();
+                } catch (error) {
+                    console.error('Error deleting meal:', error);
+                }
+            }
         }
 
-        // ページ読み込み完了時の処理
         document.addEventListener('DOMContentLoaded', () => {
-            // 初期表示としてTODOリストを読み込む
-            loadTodos();
-            
-            // フォームの送信イベントを処理
-            document.getElementById('todoForm').addEventListener('submit', e => {
-                // フォームのデフォルトの送信動作を防止
+            loadMeals();
+
+            document.getElementById('mealForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                // 入力されたテキストを取得
-                const input = document.getElementById('todoInput');
-                const title = input.value.trim();
-                // テキストが入力されている場合のみTODOを追加
-                if (title) {
-                    addTodo(title);
-                    // 入力フィールドをクリア
-                    input.value = '';
-                }
+                const mealData = {
+                    date_time: new Date(document.getElementById('dateTimeInput').value).toISOString(),
+                    meal_type: document.getElementById('mealTypeInput').value,
+                    food_name: document.getElementById('foodNameInput').value,
+                    calories: parseInt(document.getElementById('caloriesInput').value) || null,
+                    notes: document.getElementById('notesInput').value || null
+                };
+                await addMeal(mealData);
+                e.target.reset();
             });
         });
     </script>
